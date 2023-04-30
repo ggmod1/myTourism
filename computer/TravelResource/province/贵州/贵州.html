@@ -1,0 +1,257 @@
+<!--
+此示例下载自 https://echarts.apache.org/examples/zh/editor.html?c=effectScatter-bmap
+-->
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body style="height: 100%; margin: 0">
+    <div style="height: 100%; width: 100%; position: relative;">
+        <div id="container" style="height: 100%;"></div>
+        <div style="position: absolute;z-index: 3; height: 100px; width: 100px;  top: 10px; right: 10px;">
+            <a href="../../index.html" style="color:blue;font-size: larger; font-weight: 700;">返回上一页</a>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
+    <!-- Uncomment this line if you want to dataTool extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/dataTool.min.js"></script>
+  -->
+    <!-- Uncomment this line if you want to use gl extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+  -->
+    <!-- Uncomment this line if you want to echarts-stat extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+  -->
+    <!-- Uncomment this line if you want to use map
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/china.js"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
+  -->
+    {# Uncomment these two lines if you want to use bmap extension#}
+    <script type="text/javascript"
+        src="https://api.map.baidu.com/api?v=3.0&ak=EcMeTlWuNyyqL4GwZT5Nmlj9mtpvhE9Y"></script>
+    <script type="text/javascript"
+        src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/bmap.min.js"></script>
+    <script type="text/javascript">
+        var dom = document.getElementById('container');
+        var myChart = echarts.init(dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
+        var option;
+        const data = [{ 'name': '罗平坝子', 'value': 7.4 }, { 'name': '罗平螺丝田', 'value': 3.2 }, { 'name': '爨宝子碑', 'value': 2.9 }, { 'name': '大战马坡', 'value': 5.1 }, { 'name': '龙泉禅寺', 'value': 8.6 }, { 'name': '承恩寺', 'value': 3.0 }, { 'name': '镇国寺', 'value': 8.7 }, { 'name': '蘑菇石', 'value': 9.9 }, { 'name': '九皇洞', 'value': 6.0 }, { 'name': '棉絮岭', 'value': 5.0 }, { 'name': '红云金顶', 'value': 8.7 }, { 'name': '万米睡佛', 'value': 3.7 }, { 'name': '梵净山生态植物园', 'value': 9.3 }, { 'name': '罗平县', 'value': 5.9 }, { 'name': '播乐乡', 'value': 3.1 }, { 'name': '河滨公园', 'value': 9.9 }, { 'name': '龙潭公园', 'value': 7.2 }, { 'name': '沾益县彩云洞风景区', 'value': 6.8 }, { 'name': '天生洞公园', 'value': 9.8 }, { 'name': '越州古镇', 'value': 1.9 }, { 'name': '菌子山景区', 'value': 9.4 }, { 'name': '南丹山', 'value': 3.8 }, { 'name': '泸西阿庐古洞', 'value': 5.9 }, { 'name': '胜境关', 'value': 9.6 }, { 'name': '黑尔瀑布', 'value': 1.8 }, { 'name': '珠江源风景区', 'value': 8.4 }, { 'name': '翠峰山', 'value': 4.7 }, { 'name': '梵净山风景区', 'value': 7.7 }, { 'name': '亚木沟风景区', 'value': 8.0 }, { 'name': '龙马石林', 'value': 8.1 }, { 'name': '麒麟公园', 'value': 9.7 }, { 'name': '八塔台墓群', 'value': 8.9 }, { 'name': '翠峰古刹', 'value': 2.3 }, { 'name': '段氏与三十七部会盟碑', 'value': 4.1 }, { 'name': '十里锦江', 'value': 1.2 }, { 'name': '老金顶', 'value': 7.6 }, { 'name': '凤凰山金顶', 'value': 2.1 }, { 'name': '云鹏图书馆', 'value': 8.4 }, { 'name': '钟秀山公园', 'value': 1.7 }, { 'name': '寥廓山森林公园', 'value': 7.7 }, { 'name': '三岔河十里荷花', 'value': 6.7 }, { 'name': '白腊山', 'value': 4.1 }, { 'name': '太液湖公园', 'value': 8.8 }, { 'name': '凤凰谷', 'value': 9.3 }, { 'name': '杜鹃花海景区', 'value': 8.4 }, { 'name': '拜佛台', 'value': 4.0 }, { 'name': '沾益机场', 'value': 3.3 }, { 'name': '万卷书', 'value': 8.0 }, { 'name': '太子石', 'value': 5.5 }, { 'name': '天桥', 'value': 1.7 }, { 'name': '一线天', 'value': 8.1 }, { 'name': '护国寺', 'value': 1.1 }, { 'name': '敇赐碑', 'value': 6.7 }, { 'name': '潜龙洞', 'value': 2.2 }, { 'name': '万宝岩', 'value': 9.5 }, { 'name': '靖宁宝塔', 'value': 7.5 }, { 'name': '多乐园风景区', 'value': 6.3 }, { 'name': '金麟湾温泉', 'value': 6.4 }, { 'name': '八塔台古墓群', 'value': 4.4 }, { 'name': '寥廓山', 'value': 5.0 }, { 'name': '翠山影视城', 'value': 5.9 }, { 'name': '以堵勒瀑布', 'value': 5.0 }, { 'name': '碧水长天', 'value': 4.2 }, { 'name': '金麟湾爱情小镇', 'value': 7.1 }, { 'name': '凤成金圣芭芭拉SPA', 'value': 1.0 }, { 'name': '罗平油菜花海', 'value': 9.0 }, { 'name': '湾子水库', 'value': 3.2 }, { 'name': '罗平航空房车国际露营地', 'value': 4.4 }, { 'name': '爨龙园温泉', 'value': 7.5 }, { 'name': '九龙温泉', 'value': 9.8 }, { 'name': '流水人家水族馆', 'value': 9.0 }, { 'name': '大金佛寺', 'value': 5.1 }, { 'name': '梵净山太平河风景名胜区', 'value': 6.7 }, { 'name': '麒麟水乡水上乐园', 'value': 4.9 }, { 'name': '净心池', 'value': 6.1 }, { 'name': '普渡广场', 'value': 2.4 }, { 'name': '贵洞风景区', 'value': 4.6 }, { 'name': '绝石神树', 'value': 3.1 }, { 'name': '曲靖师范学院', 'value': 3.2 }, { 'name': '革岗村', 'value': 7.5 }, { 'name': '黑湾河', 'value': 3.5 }, { 'name': '曲靖南城门', 'value': 4.6 }, { 'name': '珠江源古镇', 'value': 4.2 }, { 'name': '罗平相石阶森林公园', 'value': 5.6 }, { 'name': '西河公园', 'value': 9.1 }, { 'name': '色卡村', 'value': 3.2 }, { 'name': '桃花源村', 'value': 2.7 }, { 'name': '腊庄村', 'value': 5.1 }, { 'name': '九龙生态园', 'value': 6.4 }, { 'name': '马街村', 'value': 9.2 }, { 'name': '吾者半山温泉', 'value': 2.1 }, { 'name': '阿庐古洞国家地质公园', 'value': 9.2 }, { 'name': '珠江源大剧院', 'value': 7.1 }, { 'name': '曲靖市沾益区西河公园', 'value': 3.3 }, { 'name': '安澜寺', 'value': 2.4 }, { 'name': '爨文化博物馆', 'value': 6.5 }, { 'name': '象鼻温泉', 'value': 2.8 }, { 'name': '石城会盟碑', 'value': 1.8 }, { 'name': '江口国家湿地公园', 'value': 7.9 }, { 'name': '翻天印', 'value': 1.6 }, { 'name': '江口梵净山小溪沟农家乐', 'value': 4.3 }, { 'name': '曲靖市第一中学', 'value': 5.3 }, { 'name': '新场村', 'value': 5.5 }, { 'name': '十八连山森林公园', 'value': 5.3 }, { 'name': '陆良彩色沙林', 'value': 3.3 }, { 'name': '麒麟巷立得商业街', 'value': 4.3 }, { 'name': '龙树坝', 'value': 8.4 }, { 'name': '鲁布革小三峡', 'value': 4.6 }, { 'name': '三江口风景区', 'value': 8.9 }, { 'name': '罗平多依河', 'value': 8.7 }
+        ]
+        const geoCoordMap = { '罗平坝子': [104.357, 24.9062], '罗平螺丝田': [104.289, 24.9685], '爨宝子碑': [103.75, 25.4818], '大战马坡': [103.794, 25.4568], '龙泉禅寺': [108.764, 27.8161], '承恩寺': [108.625, 27.9266], '镇国寺': [108.657, 27.9531], '蘑菇石': [108.635, 27.9285], '九皇洞': [108.714, 27.979], '棉絮岭': [108.634, 27.9061], '红云金顶': [108.635, 27.9473], '万米睡佛': [108.594, 27.9681], '梵净山生态植物园': [108.74, 27.8437], '罗平县': [104.35, 24.8476], '播乐乡': [104.09, 25.8306], '河滨公园': [103.774, 25.4591], '龙潭公园': [103.791, 25.5195], '沾益县彩云洞风景区': [103.944, 25.76], '天生洞公园': [103.82, 25.6556], '越州古镇': [103.846, 25.2828], '菌子山景区': [104.178, 24.6912], '南丹山': [104.206, 24.5534], '泸西阿庐古洞': [103.764, 24.5926], '胜境关': [104.317, 25.6949], '黑尔瀑布': [104.053, 24.4787], '珠江源风景区': [103.922, 25.9362], '翠峰山': [103.737, 25.5419], '梵净山风景区': [108.799, 27.8404], '亚木沟风景区': [108.738, 27.7731], '龙马石林': [104.026, 24.9857], '麒麟公园': [103.816, 25.5047], '八塔台墓群': [103.776, 25.4745], '翠峰古刹': [103.799, 25.4502], '段氏与三十七部会盟碑': [103.772, 25.4584], '十里锦江': [108.794, 27.849], '老金顶': [108.655, 27.9204], '凤凰山金顶': [108.735, 27.8498], '云鹏图书馆': [103.759, 24.5615], '钟秀山公园': [103.796, 24.4951], '寥廓山森林公园': [103.77, 25.5161], '三岔河十里荷花': [103.805, 25.0142], '白腊山': [104.254, 24.8218], '太液湖公园': [104.301, 24.8423], '凤凰谷': [104.293, 24.6607], '杜鹃花海景区': [108.654, 27.9189], '拜佛台': [108.629, 27.9191], '沾益机场': [103.779, 25.3725], '万卷书': [108.635, 27.9071], '太子石': [108.658, 27.9208], '天桥': [108.684, 27.9295], '一线天': [108.647, 27.9271], '护国寺': [108.656, 27.9297], '敇赐碑': [108.743, 27.9076], '潜龙洞': [108.583, 27.9733], '万宝岩': [108.655, 27.9614], '靖宁宝塔': [103.821, 25.4335], '多乐园风景区': [104.134, 25.7627], '金麟湾温泉': [103.785, 25.4422], '八塔台古墓群': [103.907, 25.5642], '寥廓山': [103.779, 25.4787], '翠山影视城': [103.71, 25.5029], '以堵勒瀑布': [104.386, 25.0528], '碧水长天': [103.773, 25.4593], '金麟湾爱情小镇': [103.821, 25.462], '凤成金圣芭芭拉SPA': [103.878, 25.4105], '罗平油菜花海': [104.364, 24.9521], '湾子水库': [104.267, 24.7425], '罗平航空房车国际露营地': [104.349, 24.8373], '爨龙园温泉': [103.711, 24.9329], '九龙温泉': [103.806, 25.5499], '流水人家水族馆': [108.784, 27.875], '大金佛寺': [108.754, 27.8659], '梵净山太平河风景名胜区': [108.778, 27.8464], '麒麟水乡水上乐园': [103.871, 25.4269], '净心池': [108.642, 27.9424], '普渡广场': [108.662, 27.9363], '贵洞风景区': [108.692, 26.9729], '绝石神树': [108.767, 27.2831], '曲靖师范学院': [103.757, 25.5138], '革岗村': [104.311, 25.1532], '黑湾河': [108.714, 27.8879], '曲靖南城门': [103.781, 25.4429], '珠江源古镇': [103.775, 25.5569], '罗平相石阶森林公园': [104.266, 24.8694], '西河公园': [103.79, 25.6031], '色卡村': [103.856, 25.9557], '桃花源村': [108.795, 27.9501], '腊庄村': [104.225, 24.9201], '九龙生态园': [104.315, 24.9513], '马街村': [104.227, 25.158], '吾者半山温泉': [103.927, 24.6125], '阿庐古洞国家地质公园': [103.728, 24.5106], '珠江源大剧院': [103.776, 25.5197], '曲靖市沾益区西河公园': [103.834, 25.5496], '安澜寺': [103.831, 25.4512], '爨文化博物馆': [103.851, 25.4431], '象鼻温泉': [103.767, 25.5203], '石城会盟碑': [103.834, 25.4771], '江口国家湿地公园': [108.581, 27.8486], '翻天印': [108.772, 27.8852], '江口梵净山小溪沟农家乐': [108.774, 27.8253], '曲靖市第一中学': [103.791, 25.4521], '新场村': [108.633, 28.049], '十八连山森林公园': [103.778, 25.5222], '陆良彩色沙林': [103.711, 25.0528], '麒麟巷立得商业街': [103.77, 25.5382], '龙树坝': [103.777, 24.4884], '鲁布革小三峡': [104.273, 24.8488], '三江口风景区': [104.349, 24.8398], '罗平多依河': [104.292, 24.9048] }
+        const convertData = function (data) {
+            var res = [];
+            for (var i = 0; i < data.length; i++) {
+                var geoCoord = geoCoordMap[data[i].name];
+                if (geoCoord) {
+                    res.push({
+                        name: data[i].name,
+                        value: geoCoord.concat(data[i].value)
+                    });
+                }
+            }
+            return res;
+        };
+        option = {
+            title: {
+                text: '贵州热门景点地图热度排名 - 百度地图',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            bmap: {
+                center: [106.643715, 26.650939],
+                zoom: 8,
+                roam: true,
+                mapStyle: {
+                    styleJson: [
+                        {
+                            featureType: 'water',
+                            elementType: 'all',
+                            stylers: {
+                                color: '#d1d1d1'
+                            }
+                        },
+                        {
+                            featureType: 'land',
+                            elementType: 'all',
+                            stylers: {
+                                color: '#f3f3f3'
+                            }
+                        },
+                        {
+                            featureType: 'railway',
+                            elementType: 'all',
+                            stylers: {
+                                visibility: 'off'
+                            }
+                        },
+                        {
+                            featureType: 'highway',
+                            elementType: 'all',
+                            stylers: {
+                                color: '#fdfdfd'
+                            }
+                        },
+                        {
+                            featureType: 'highway',
+                            elementType: 'labels',
+                            stylers: {
+                                visibility: 'off'
+                            }
+                        },
+                        {
+                            featureType: 'arterial',
+                            elementType: 'geometry',
+                            stylers: {
+                                color: '#fefefe'
+                            }
+                        },
+                        {
+                            featureType: 'arterial',
+                            elementType: 'geometry.fill',
+                            stylers: {
+                                color: '#fefefe'
+                            }
+                        },
+                        {
+                            featureType: 'poi',
+                            elementType: 'all',
+                            stylers: {
+                                visibility: 'off'
+                            }
+                        },
+                        {
+                            featureType: 'green',
+                            elementType: 'all',
+                            stylers: {
+                                visibility: 'off'
+                            }
+                        },
+                        {
+                            featureType: 'subway',
+                            elementType: 'all',
+                            stylers: {
+                                visibility: 'off'
+                            }
+                        },
+                        {
+                            featureType: 'manmade',
+                            elementType: 'all',
+                            stylers: {
+                                color: '#d1d1d1'
+                            }
+                        },
+                        {
+                            featureType: 'local',
+                            elementType: 'all',
+                            stylers: {
+                                color: '#d1d1d1'
+                            }
+                        },
+                        {
+                            featureType: 'arterial',
+                            elementType: 'labels',
+                            stylers: {
+                                visibility: 'off'
+                            }
+                        },
+                        {
+                            featureType: 'boundary',
+                            elementType: 'all',
+                            stylers: {
+                                color: '#fefefe'
+                            }
+                        },
+                        {
+                            featureType: 'building',
+                            elementType: 'all',
+                            stylers: {
+                                color: '#d1d1d1'
+                            }
+                        },
+                        {
+                            featureType: 'label',
+                            elementType: 'labels.text.fill',
+                            stylers: {
+                                color: '#999999'
+                            }
+                        }
+                    ]
+                }
+            },
+            series: [
+                {
+                    name: '热度',
+                    type: 'scatter',
+                    coordinateSystem: 'bmap',
+                    data: convertData(data),
+                    symbolSize: function (val) {
+                        return val[2] * 3;
+                    },
+                    encode: {
+                        value: 2
+                    },
+                    label: {
+                        formatter: '{b}',
+                        position: 'right',
+                        show: false
+                    },
+                    emphasis: {
+                        label: {
+                            show: true
+                        }
+                    }
+                },
+                {
+                    name: 'Top 5',
+                    type: 'effectScatter',
+                    coordinateSystem: 'bmap',
+                    data: convertData(
+                        data
+                            .sort(function (a, b) {
+                                return b.value - a.value;
+                            })
+                            .slice(0, 6)
+                    ),
+                    symbolSize: function (val) {
+                        return val[2] * 3;
+                    },
+                    encode: {
+                        value: 2
+                    },
+                    showEffectOn: 'render',
+                    rippleEffect: {
+                        brushType: 'stroke'
+                    },
+                    label: {
+                        formatter: '{b}',
+                        position: 'right',
+                        show: true
+                    },
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowColor: '#333'
+                    },
+                    emphasis: {
+                        scale: true
+                    },
+                    zlevel: 1
+                }
+            ]
+        };
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+        window.addEventListener('resize', myChart.resize);
+    </script>
+</body>
+
+</html>
