@@ -1,0 +1,572 @@
+﻿<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>数据总览</title>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/echarts.min.js"></script>
+	<script type="text/javascript" src="js/china.js"></script>
+	<!-- <script type="text/javascript" src="js/map.js"></script> -->
+	<script type="text/javascript" src="js/js.js"></script>
+	<script type="text/javascript" src="js/Bubble.js"></script>
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="../FirstPage/base.css">
+
+</head>
+
+<body>
+
+	<!--导航-->
+	<header class="header left">
+		<div class="left nav">
+			<ul>
+				<li><i class="nav_1"></i><a href="../FirstPage/first.html">首页界面</a> </li>
+				<li class="nav_active"><i class="nav_2"></i><a href="../DataScreen/index.html">数据总览</a> </li>
+			</ul>
+		</div>
+		<div class="header_center left">
+			<h2><strong>后疫情时代——旅游经济发展分析平台</strong></h2>
+			<p class="color_font"><small>Comprehensive service platform for smart tourism</small></p>
+		</div>
+		<div class="right nav text_right">
+			<ul>
+				<li><i class="nav_8"></i><a href="../TravelResource/index.html">旅游资源</a> </li>
+				<li><i class="nav_4"></i><a href="../DataPreview/index.html">数据预测</a> </li>
+			</ul>
+		</div>
+	</header>
+	<!---结束-->
+	<div class="mainbox">
+		<!--页面中间部分-->
+		<ul class="clearfix nav1">
+			<!--左-->
+			<li style="width: 22%">
+				<div class="box">
+					<div class="tit">旅游热门城市</div>
+					<div class="boxnav" style="height: 200px;">
+						<table class="table1" width="100%" cellspacing="0" cellpadding="0" border="0">
+							<tbody>
+								<tr>
+									<th>省份</th>
+									<th>客流量</th>
+									<th>消费额</th>
+									<th>增长率</th>
+
+
+								</tr>
+								<tr>
+									<td>广东</td>
+									<td><span class="text-w">8.56百万</span></td>
+									<td><span class="text-b">865.21</span>亿</td>
+									<td>
+										<div class="text-d">↑17.6%</div>
+									</td>
+								</tr>
+								<tr>
+									<td>四川</td>
+									<td><span class="text-w">5.46百万</span></td>
+									<td><span class="text-b">546.36</span>亿</td>
+									<td>
+										<div class="text-s">↑4.7%</div>
+									</td>
+								</tr>
+								<tr>
+									<td>北京</td>
+									<td><span class="text-w">4.98百万</span></td>
+									<td><span class="text-b">502.32</span>亿</td>
+									<td>
+										<div class="text-d">↑25.6%</div>
+									</td>
+								</tr>
+								<tr>
+									<td>辽宁</td>
+									<td><span class="text-w">4.18百万</span></td>
+									<td><span class="text-b">420.05</span>亿</td>
+									<td>
+										<div class="text-s">20.2%</div>
+									</td>
+								</tr>
+								<tr>
+									<td>山东</td>
+									<td><span class="text-w">3.60百万</span></td>
+									<td><span class="text-b">378.21</span>亿</td>
+									<td>
+										<div class="text-d">↑10%</div>
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="box">
+					<div class="tit">出行方式</div>
+					<div class="boxnav" style="height: 250px;">
+						<div class="" style="height: 190px" id="echart1"></div>
+						<div class="leidanav">
+							<ul class="clearfix">
+								<li><span>自驾</span>
+									<p>21%</p>
+								</li>
+								<li><span>跟团</span>
+									<p>31%</p>
+								</li>
+								<li><span>飞机</span>
+									<p>7%</p>
+								</li>
+								<li><span>高铁</span>
+									<p>13%</p>
+								</li>
+								<li><span>火车</span>
+									<p>28%</p>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</li>
+			<!--中间-->
+			<li style="width: 56%">
+
+				<div class="box">
+					<div class="boxnav mapc" style="height: 550px; position: relative">
+
+						<div class="mapnav2">
+
+							<div class="box">
+								<div class="tit">近期旅游相关消费</div>
+								<div class="boxnav" style="height: 130px;" id="sysx">
+
+
+								</div>
+								<div class="leidanav leidanav3" style="margin-bottom: 15px;">
+									<ul class="clearfix">
+										<li><span>餐饮收入</span>
+											<p>4070亿</p>
+										</li>
+										<li><span>交通收入</span>
+											<p>37350亿</p>
+										</li>
+										<li><span>门票收入</span>
+											<p>1480.56亿</p>
+										</li>
+										<li><span>购物收入</span>
+											<p>37803亿</p>
+										</li>
+									</ul>
+								</div>
+
+							</div>
+						</div>
+						<!-- <div class="map" id="map"></div> -->
+						<!--地图开始-->
+						<div id="map" class="map"></div>
+						<script type="text/javascript">
+							// 基于准备好的dom，初始化echarts实例
+							var myChart = echarts.init(document.getElementById('map'));
+							var option = {
+
+								tooltip: { //鼠标hover是提示信息
+									show: true, //不显示提示标签
+									formatter: '{b}<br/>{c} 万人', //提示标签格式
+									//backgroundColor: "#ff7f50", //提示标签背景颜色
+									textStyle: {
+										color: "white",
+										fontSize: "20"
+									} //提示标签字体颜色
+								},
+
+								visualMap: {
+									show: true,
+									text: ['High', 'Low'],
+									inRange: {
+										// color: ['#fcfe01', '#153fac', '#072471', '#dc005f', '#fd0601'],
+										// color: ['#edf0da', '#f2c664', '#fb920c', '#c35b1d', '#853705', '#4b3114'],
+										color: ['#a1aab5', '#69809f', '#08428e', '#09131e']
+
+
+									},
+									min: 0,
+									max: 50000,
+									left: 700,
+									top: 300,
+									calculable: true,
+									// type: 'piecewise'
+									textStyle: {
+										color: "#fff",
+										fontSize: 12
+									}
+
+								},
+								title: {
+									show: true,
+									text: '全国客流量地图化展示',
+									textStyle: {
+
+										fontSize: 25,
+										color: '#fff'
+
+									}
+
+								},
+								series: [{
+									type: 'map',
+									color: "red",
+									mapType: 'china',
+									roam: "false", //是否开启缩放平移
+									label: { //标签字体样式
+										position: "inside",
+										normal: { //正常情况下显示效果
+											show: true, //显示省份标签
+											textStyle: {
+												color: "#fff",
+												fontSize: 12
+											} //省份标签字体颜色
+										},
+										emphasis: { //对应的鼠标悬浮效果
+											show: true,
+											textStyle: {
+												color: "#ff0000",
+												fontSize: 12
+											}
+										}
+									},
+
+									itemStyle: {
+										normal: {
+											borderColor: "rgba(147, 235, 248, 1)",//地图边框描边颜色
+											borderWidth: 1,
+											areaColor: {
+												type: "radial",
+												x: 0.5,
+												y: 0.5,
+												r: 0.8,
+												colorStops: [
+													{
+														offset: 0,
+														color: "rgba(147, 235, 400, 0)", // 0% 处的颜色
+													},
+													{
+														offset: 1,
+														color: "rgba(200, 235, 400, .5)", // 100% 处的颜色
+													},
+												],
+												globalCoord: false, // 缺省为 false
+											},
+											shadowColor: "rgba(18, 81, 128, 1)",
+											shadowOffsetX: -5,
+											shadowOffsetY: 5,
+											shadowBlur: 10,
+										},
+										// 鼠标放上去高亮的样式
+										emphasis: {
+											// areaColor: "#389BB7", //鼠标放上去地图区域的颜色
+											// borderWidth: 0,
+											// borderWidth: 1,
+											// borderColor: '#3246FB',
+											areaColor: "#06306d",
+										},
+									},
+									data: [{
+										name: '北京',
+										value: 49846
+									}, {
+										name: '天津',
+										value:   9947
+									}, {
+										name: '上海',
+										value: 43054
+									}, {
+										name: '重庆',
+										value: 35511
+									}, {
+										name: '河北',
+										value:  16814
+									}, {
+										name: '河南',
+										value: 27080
+									}, {
+										name: '云南',
+										value: 15024
+									}, {
+										name: '辽宁',
+										value:   41884
+									}, {
+										name: '黑龙江',
+										value:   31840
+									}, {
+										name: '湖南',
+										value: 33434
+									}, {
+										name: '安徽',
+										value: 24156
+									}, {
+										name: '山东',
+										value: 36082
+									}, {
+										name: '新疆',
+										value: 18270
+									}, {
+										name: '江苏',
+										value:  40543
+									}, {
+										name: '浙江',
+										value:  37712
+									}, {
+										name: '江西',
+										value: 13483
+									}, {
+										name: '湖北',
+										value: 36029
+									}, {
+										name: '广西',
+										value: 10078
+									}, {
+										name: '甘肃',
+										value: 17379
+									}, {
+										name: '山西',
+										value:  15872
+									}, {
+										name: '内蒙古',
+										value:  17050
+									}, {
+										name: '陕西',
+										value: 31218
+									}, {
+										name: '吉林',
+										value:  23550
+									}, {
+										name: '福建',
+										value:  20947
+									}, {
+										name: '贵州',
+										value:  24559
+									}, {
+										name: '广东',
+										value:  85635
+									}, {
+										name: '青海',
+										value: 4830
+									}, {
+										name: '西藏',
+										value: 1289
+									}, {
+										name: '四川',
+										value: 54625
+									}, {
+										name: '宁夏',
+										value: 5242
+									}, {
+										name: '海南',
+										value: 1723
+									}, {
+										name: '台湾',
+										value:0
+									}, {
+										name: '香港',
+										value:0
+									}, {
+										name: '澳门',
+										value: 0
+									}]
+								}],
+							};
+							myChart.setOption(option);
+
+						</script>
+						<!--map end-->
+						<script>
+							$(".mapbtn a").hover(function () {
+								var ind = $(this).index()
+								$(".mapnav ul").eq(ind).show().siblings().hide()
+							})
+						</script>
+					</div>
+				</div>
+
+			</li>
+			<!--右-->
+			<li style="width: 22%">
+
+				<div class="box">
+					<div class="tit">旅游总人数：与去年同期相比</div>
+					<div class="boxnav" id="echart3" style="height: 200px;">
+
+					</div>
+				</div>
+				<div class="box">
+					<div class="tit">相关讯息</div>
+					<div class="boxnav" style="height: 250px;">
+						<div style="height: 230px; float: left; width: 40%; padding: 0 5px; overflow: hidden;">
+							<div class="tit02 text-b">热门话题榜</div>
+							<div class="huati" id="review_box">
+								<ul id="comment1">
+									<li>1.淄博烧烤迎来考察团 <span class="text-s">↑350.4w</span></li>
+									<li>2.开车116公里去日照 <span class="text-d">↓216.2w</span></li>
+									<li>3.淄博烧烤的灵魂是什么 <span class="text-s">↑321.2w</span></li>
+									<li>4.西湖音乐节 <span class="text-d">↓167w</span></li>
+									<li>5.乡村文旅市场“春潮涌动” <span class="text-d">↓216.7w</span></li>
+									<li>6.文旅局长“卷”上天 <span class="text-s">↑150.2w</span></li>
+									<li>7.多地马拉松“重启” <span class="text-d">↓225.4w</span></li>
+									<li>8.消博会 <span class="text-s">↑121.2w</span></li>
+									<li>9.访港旅客增至约245万人次 <span class="text-d">↓167w</span></li>
+									<li>10.外商为何看好中国？ <span class="text-d">↓113.7w</span></li>
+								</ul>
+								<ul id="comment2"></ul>
+							</div>
+						</div>
+
+						<div style="height: 200px; float: left; width: 60%">
+
+							<div class="text-b tit02" style="text-align: center;">关键词 — 旅游</div>
+							<div class="tagcloud">
+								<!-- bo大小 co颜色 -->
+								<a class="b01 co01" href="#" style="color: aliceblue;">玩乐</a>
+								<a class="b02 co02" href="#" style="color: aliceblue;">贴心</a>
+								<a class="b03 co05" href="#" style="color: aliceblue;">便利</a>
+								<a class="b04 co02" href="#" style="color: aliceblue;">吃喝</a>
+								<a class="b03 co05" href="#" style="color: aliceblue;">信赖</a>
+							</div>
+							<script type="text/javascript">
+								/*3D标签云*/
+								tagcloud({
+									selector: ".tagcloud",  //元素选择器
+									fontsize: 6,       //基本字体大小, 单位px
+									radius: 40,         //滚动半径, 单位px 页面宽度和高度的五分之一
+									mspeed: "slow",   //滚动最大速度, 取值: slow, normal(默认), fast
+									ispeed: "slow",   //滚动初速度, 取值: slow, normal(默认), fast
+									direction: 0,     //初始滚动方向, 取值角度(顺时针360): 0对应top, 90对应left, 135对应right-bottom(默认)...
+									keep: false          //鼠标移出组件后是否继续随鼠标滚动, 取值: false, true(默认) 对应 减速至初速度滚动, 随鼠标滚动
+								});
+							</script>
+						</div>
+					</div>
+				</div>
+
+			</li>
+		</ul>
+		<!--最底-->
+		<div class="box" style="padding: 20px 0;">
+			<ul class="clearfix nav2 ">
+				<!--格1-->
+				<li style="width:20%">
+					<div class="tit01">疫情结束你最想做的是？</div>
+
+					<div style="float: left; width: 100%; height:250px" id="fb01"></div>
+
+				</li>
+				<!--格2-->
+				<li style="width:50%">
+					<div class="tit01">游客为中国创收详情</div>
+					<div class="ftechart" id="echart4"></div>
+				</li>
+				<!--格3-->
+				<li style="width:30%">
+					<div class="tit01">出游年龄段</div>
+					<div class="" style="height:100%;display: flex; align-items: center;">
+						<div style=" width: 50%; height: 100%" class="wancheng">
+							<div><span style="margin-left: 30px;"><span color: #00b4ff;
+										style="font-size: larger;font-weight: 700;color:#00b4ff;margin-left: 5px;">今日</span><br><span
+										style="margin-left: 20px;">出游人数</span></span>
+								<h3><span id="my-number">2.74</span>亿<i>人</i></h3>
+							</div>
+							<div class="yuan">
+								<span id="my-small"></span>
+							</div>
+						</div>
+						<div style="float: left; width: 50%; height: 90%" id="myd1"></div>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+
+	</div>
+
+</body>
+
+
+<script>
+
+	addNumber(2.73, 2.74, 'my-number');
+	addNumber(7000, Math.floor(Math.random() * (8000 - 9000 + 1) + 9000), 'my-number1');
+	addNumber(7500, Math.floor(Math.random() * (8000 - 9000 + 1) + 9000), 'my-number2');
+	addNumber(7000, Math.floor(Math.random() * (8000 - 9000 + 1) + 9000), 'my-number3');
+	addNumber(11000, 12000, 'my-number4');
+	addNumber(15000, Math.floor(Math.random() * (16000 - 17000 + 1) + 17000), 'my-number5');
+	addSmallNumber(18.2, 18.3, 'my-small')
+	function addNumber(start, end, id) {
+		var o = document.getElementById(id);
+		var i = start;
+		var Interval;
+		if (i < end) {
+			Interval = setInterval(function () {
+				i += 2; // 设置每次增加的动态数字，可调整
+				if (i > end) {
+					clearInterval(Interval); // 清除setInterval的time，这个方法w3c可具体查看文档
+					o.innerHTML = end.toLocaleString(); // 此赋值是为了避免最后一次增加过后的数据和真实数据不同
+					i = 0;
+				} else {
+					o.innerHTML = i.toLocaleString();
+				}
+			}, 10); // 数据跳转的速度控制
+		}
+
+
+	}
+	function addSmallNumber(start, end, id) {
+		var o = document.getElementById(id);
+		var i = start;
+		var Interval;
+		if (i < end) {
+			Interval = setInterval(function () {
+				i += 0.1; // 设置每次增加的动态数字，可调整
+				if (i > end) {
+					clearInterval(Interval); // 清除setInterval的time，这个方法w3c可具体查看文档
+					o.innerHTML = end.toLocaleString() + '%'; // 此赋值是为了避免最后一次增加过后的数据和真实数据不同
+					i = 0;
+				} else {
+					o.innerHTML = i.toLocaleString() + '%';
+				}
+			}, 10); // 数据跳转的速度控制
+		}
+
+
+	}
+	roll(50, 'comment1', 'comment2', 'review_box');
+
+	function roll(t, TopUl, BottomUl, UlBox) {
+		var ul1 = document.getElementById(TopUl);
+		var ul2 = document.getElementById(BottomUl);
+		var ulbox = document.getElementById(UlBox);
+		ul2.innerHTML = ul1.innerHTML;
+		ulbox.scrollTop = 0; // 开始无滚动时设为0
+		var timer = setInterval(rollStart, t); // 设置定时器，参数t用在这为间隔时间（单位毫秒），参数t越小，滚动速度越快
+		// 鼠标移入div时暂停滚动
+		ulbox.onmouseover = function () {
+			clearInterval(timer);
+		}
+		// 鼠标移出div后继续滚动
+		ulbox.onmouseout = function () {
+			timer = setInterval(rollStart, t);
+		}
+	}
+
+	// 开始滚动函数
+	function rollStart() {
+		// 上面声明的DOM对象为局部对象需要再次声明
+		var ul1 = document.getElementById("comment1");
+		var ul2 = document.getElementById("comment2");
+		var ulbox = document.getElementById("review_box");
+		// 正常滚动不断给scrollTop的值+1,当滚动高度大于列表内容高度时恢复为0
+		if (ulbox.scrollTop >= ul1.scrollHeight) {
+			ulbox.scrollTop = 0;
+		} else {
+			ulbox.scrollTop++;
+		}
+	}
+</script>
+
+</html>
