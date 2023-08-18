@@ -1,0 +1,264 @@
+<!--
+	此示例下载自 https://echarts.apache.org/examples/zh/editor.html?c=effectScatter-bmap
+-->
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body style="height: 100%; margin: 0">
+    <div style="height: 100%; width: 100%; position: relative;">
+        <div id="container" style="height: 100%;"></div>
+        <div style="position: absolute;z-index: 3; height: 100px; width: 100px;  top: 10px; right: 10px;">
+            <a href="../../index.html" style="color:blue;font-size: larger; font-weight: 700;">返回上一页</a>
+        </div>
+
+    </div>
+
+
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
+    <!-- Uncomment this line if you want to dataTool extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/dataTool.min.js"></script>
+  -->
+    <!-- Uncomment this line if you want to use gl extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+  -->
+    <!-- Uncomment this line if you want to echarts-stat extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+  -->
+    <!-- Uncomment this line if you want to use map
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/china.js"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
+  -->
+    {# Uncomment these two lines if you want to use bmap extension#}
+    <script type="text/javascript"
+        src="https://api.map.baidu.com/api?v=3.0&ak=EcMeTlWuNyyqL4GwZT5Nmlj9mtpvhE9Y"></script>
+    <script type="text/javascript"
+        src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/bmap.min.js"></script>
+
+    <script type="text/javascript">
+        var dom = document.getElementById('container');
+        var myChart = echarts.init(dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
+
+        var option;
+        const data = [{ 'name': '柴达木盆地', 'value': 1.9 }, { 'name': '雅丹林', 'value': 9.4 }, { 'name': '阿尔金山自然保护区', 'value': 9.4 }, { 'name': '魔鬼谷', 'value': 5.2 }, { 'name': '高原沙漠奇观', 'value': 6.6 }, { 'name': '茫崖翡翠湖', 'value': 7.6 }, { 'name': '花土沟', 'value': 2.1 }, { 'name': '南八仙', 'value': 8.9 }, { 'name': '青海尕斯库勒湖', 'value': 2.7 }, { 'name': '柴达木盆地', 'value': 4.6 }]
+        const geoCoordMap = { '柴达木盆地': [91.3408, 37.6536], '雅丹林': [91.88, 38.0554], '阿尔金山自然保护区': [89.026, 36.6158], '魔鬼谷': [90.1781, 38.379], '高原沙漠奇观': [89.0781, 36.6297], '茫崖翡翠湖': [90.9602, 38.1061], '花土沟': [90.859, 38.3317], '南八仙': [91.6251, 37.5725], '青海尕斯库勒湖': [90.8978, 38.1083] }
+
+        const convertData = function (data) {
+            var res = [];
+            for (var i = 0; i < data.length; i++) {
+                var geoCoord = geoCoordMap[data[i].name];
+                if (geoCoord) {
+                    res.push({
+                        name: data[i].name,
+                        value: geoCoord.concat(data[i].value)
+                    });
+                }
+            }
+            return res;
+        };
+        option = {
+            title: {
+                text: '青海热门景点地图热度排名 - 百度地图',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            bmap: {
+                center: [92.749777, 36.678912],
+                zoom: 8,
+                roam: true,
+                mapStyle: {
+                    styleJson: [
+                        {
+                            featureType: 'water',
+                            elementType: 'all',
+                            stylers: {
+                                color: '#d1d1d1'
+                            }
+                        },
+                        {
+                            featureType: 'land',
+                            elementType: 'all',
+                            stylers: {
+                                color: '#f3f3f3'
+                            }
+                        },
+                        {
+                            featureType: 'railway',
+                            elementType: 'all',
+                            stylers: {
+                                visibility: 'off'
+                            }
+                        },
+                        {
+                            featureType: 'highway',
+                            elementType: 'all',
+                            stylers: {
+                                color: '#fdfdfd'
+                            }
+                        },
+                        {
+                            featureType: 'highway',
+                            elementType: 'labels',
+                            stylers: {
+                                visibility: 'off'
+                            }
+                        },
+                        {
+                            featureType: 'arterial',
+                            elementType: 'geometry',
+                            stylers: {
+                                color: '#fefefe'
+                            }
+                        },
+                        {
+                            featureType: 'arterial',
+                            elementType: 'geometry.fill',
+                            stylers: {
+                                color: '#fefefe'
+                            }
+                        },
+                        {
+                            featureType: 'poi',
+                            elementType: 'all',
+                            stylers: {
+                                visibility: 'off'
+                            }
+                        },
+                        {
+                            featureType: 'green',
+                            elementType: 'all',
+                            stylers: {
+                                visibility: 'off'
+                            }
+                        },
+                        {
+                            featureType: 'subway',
+                            elementType: 'all',
+                            stylers: {
+                                visibility: 'off'
+                            }
+                        },
+                        {
+                            featureType: 'manmade',
+                            elementType: 'all',
+                            stylers: {
+                                color: '#d1d1d1'
+                            }
+                        },
+                        {
+                            featureType: 'local',
+                            elementType: 'all',
+                            stylers: {
+                                color: '#d1d1d1'
+                            }
+                        },
+                        {
+                            featureType: 'arterial',
+                            elementType: 'labels',
+                            stylers: {
+                                visibility: 'off'
+                            }
+                        },
+                        {
+                            featureType: 'boundary',
+                            elementType: 'all',
+                            stylers: {
+                                color: '#fefefe'
+                            }
+                        },
+                        {
+                            featureType: 'building',
+                            elementType: 'all',
+                            stylers: {
+                                color: '#d1d1d1'
+                            }
+                        },
+                        {
+                            featureType: 'label',
+                            elementType: 'labels.text.fill',
+                            stylers: {
+                                color: '#999999'
+                            }
+                        }
+                    ]
+                }
+            },
+            series: [
+                {
+                    name: '热度',
+                    type: 'scatter',
+                    coordinateSystem: 'bmap',
+                    data: convertData(data),
+                    symbolSize: function (val) {
+                        return val[2] * 3;
+                    },
+                    encode: {
+                        value: 2
+                    },
+                    label: {
+                        formatter: '{b}',
+                        position: 'right',
+                        show: false
+                    },
+                    emphasis: {
+                        label: {
+                            show: true
+                        }
+                    }
+                },
+                {
+                    name: 'Top 5',
+                    type: 'effectScatter',
+                    coordinateSystem: 'bmap',
+                    data: convertData(
+                        data
+                            .sort(function (a, b) {
+                                return b.value - a.value;
+                            })
+                            .slice(0, 6)
+                    ),
+                    symbolSize: function (val) {
+                        return val[2] * 3;
+                    },
+                    encode: {
+                        value: 2
+                    },
+                    showEffectOn: 'render',
+                    rippleEffect: {
+                        brushType: 'stroke'
+                    },
+                    label: {
+                        formatter: '{b}',
+                        position: 'right',
+                        show: true
+                    },
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowColor: '#333'
+                    },
+                    emphasis: {
+                        scale: true
+                    },
+                    zlevel: 1
+                }
+            ]
+        };
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+
+        window.addEventListener('resize', myChart.resize);
+    </script>
+</body>
+
+</html>
